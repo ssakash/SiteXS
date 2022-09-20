@@ -8,10 +8,9 @@ def scanfunction(content, tag):
     ln = content[l1:].find(')')
     last = l1+ln+1
 
-    #print(f'start index:{l1}, end index:{last}')
     if(l1 == -1):
         return None, None
-    return content[l1:l1+ln+1], last
+    return content[l1:last], last
 
 
 def scanforxss(area):
@@ -28,4 +27,3 @@ def scanforxss(area):
                 xssfile.write(tag + '\n')
             area = area[line:]
             tag, line = scanfunction(area, tags)
-            #print("line after call is:",line)

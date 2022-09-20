@@ -1,36 +1,42 @@
-from sys import argv
-import requests
-import os
-import pprint #Need to figure out how to use this properly to beautify terminal output
+import backend
+import xss
 
-url = argv[2]
-request_type = argv[1].lower()
+#Virtual environment parameters!! (COmmandline arguments)
+request_type = backend.argv[1].lower() # GET, POST, PUT
+url = backend.argv[2] # URL to be accessed (TODO: remove HTTP specifier and add it inbuilt?)
+scanfor = backend.scanner.unset
+if len(backend.argv) > 3:
+    scanfor = backend.parse_scanner(backend.argv[3]) #Third parameter! what sort of vulnerability to scan for in the site
+
 content = None
 x = None
 
 if request_type == 'post':
-    x = requests.post(url)
+    x = backend.requests.post(url)
     content = x.text
 elif request_type == "get":
-    x = requests.get(url)
+    x = backend.requests.get(url)
     content = x.text
 
 elif request_type == "put":
-    x = requests.put(url)
+    x = backend.requests.put(url)
     content = x.text
 
-y = requests.head(url)
-if (os.path.exists('debug') == False):
-    os.mkdir('debug')
+y = backend.requests.head(url)
+if (backend.os.path.exists('debug') == False):
+    backend.os.mkdir('debug')
 htmlfile = open("debug/response_render.html", "w")
 textfile = open("debug/response_raw.txt", "w")
 
 textfile.write(content)
 htmlfile.write(content)
-print("==================== HEADER DATA ==============================")
+
+backend.write_header('HEADER DATA')
 for i, j in y.headers.items():
     print(f'{i}: {j}')
-print("=" * 80)
+backend.end_header
 
-#If you wanna show response body, uncomment
-#print(content)
+if (scanfor == backend.scanner.XSS):
+    backend.write_header('XSS DATA')
+    print(xss.scanforxss(content))
+    backend.end_header()

@@ -23,3 +23,6 @@ def write_header(header):
 
 def end_header():
     print('=' * 80)
+
+def end_vuln():
+    print('-' * 70)

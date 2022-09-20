@@ -2,11 +2,12 @@ import backend
 import xss
 
 #Virtual environment parameters!! (COmmandline arguments)
-request_type = backend.argv[1].lower() # GET, POST, PUT
-url = backend.argv[2] # URL to be accessed (TODO: remove HTTP specifier and add it inbuilt?)
-scanfor = backend.scanner.unset
-if len(backend.argv) > 3:
-    scanfor = backend.parse_scanner(backend.argv[3]) #Third parameter! what sort of vulnerability to scan for in the site
+if (len(backend.argv) == 4):
+    request_type = backend.argv[1].lower() # GET, POST, PUT
+    url = backend.argv[2] # URL to be accessed (TODO: remove HTTP specifier and add it inbuilt?)
+    scanfor = backend.scanner.unset
+    if len(backend.argv) > 3:
+        scanfor = backend.parse_scanner(backend.argv[3]) #Third parameter! what sort of vulnerability to scan for in the site
 
 content = None
 x = None

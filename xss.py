@@ -1,3 +1,5 @@
+import backend
+
 scancount = 0
 
 def scanfunction(content, tag):
@@ -16,9 +18,11 @@ def scanforxss(area):
     domtag1 = 'getElementById'
     line = 0
     tag = ''
+    xssfile = open("debug/xssvuln.txt", "w")
 
     while(tag != None):
-        print(tag, line)
+        print(tag)
+        xssfile.write(tag + '\n')
         area = area[line:]
         tag, line = scanfunction(area, domtag1)
         #print("line after call is:",line)

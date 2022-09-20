@@ -7,7 +7,8 @@ import enum
 class scanner(enum.Enum):
     unset = 0,
     XSS = 1,
-    XXE = 2
+    XXE = 2,
+    all = 3
 
 def parse_scanner(input):
     x = input.lower()
@@ -15,6 +16,9 @@ def parse_scanner(input):
         return scanner.XSS
     elif (x =="xxe"):
         return scanner.XXE
+    elif (x =="all"):
+        return scanner.all
+
 
     return scanner.unset
 

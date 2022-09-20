@@ -15,14 +15,17 @@ def scanfunction(content, tag):
 
 
 def scanforxss(area):
-    domtag1 = 'getElementById'
+    domtags = ['getElementById','document.write','PostMessage','eval','location','document.cookie',
+    'document.referrer','window.name', 'window.locaiton','document.URL','Database', 'JSON.parse']
     line = 0
-    tag = ''
     xssfile = open("debug/xssvuln.txt", "w")
 
-    while(tag != None):
-        print(tag)
-        xssfile.write(tag + '\n')
-        area = area[line:]
-        tag, line = scanfunction(area, domtag1)
-        #print("line after call is:",line)
+    for tags in domtags:
+        tag = -1
+        while(tag != None):
+            if(tag != -1):
+                print(tag)
+                xssfile.write(tag + '\n')
+            area = area[line:]
+            tag, line = scanfunction(area, tags)
+            #print("line after call is:",line)

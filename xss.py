@@ -20,15 +20,11 @@ def scanfunction(content, tag):
 
 def scantag(content, tag):
 
-#TODO: doesn't consider spaces between tags for closing, work solution sometime, but works for now
-    l1 = content.find('<' + tag)
-    end_search = '</'+tag + '>'
-    ln = content[l1:].find(end_search)
-    last = l1+ln+1+ len(end_search)
+    soup = backend.BeautifulSoup( backend.io.StringIO(content), 'html.parser')
+    tags = soup.findAll('script')
 
-    if(l1 == -1):
-        return None, None
-    return content[l1:last], last
+    for i in tags:
+        vuln_print(i)
 
 def scanattribute(content, tag):
 
@@ -69,16 +65,8 @@ def scanforxss(area):
             tag, line = scanfunction(area, sinks)
 
     for tags in domtags:
-        tag = -1
-        line = 0
-        area = src_area
-
-        while(tag != None):
-            if(tag != -1):
-                vuln_print(tag)
-                xssfile.write(tag + '\n')
-            area = area[line:]
-            tag, line = scantag(area, tags)   
+            area = src_area
+            scantag(area, tags)   
 
     for attributes in domattributes:
         tag = -1

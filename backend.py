@@ -2,6 +2,8 @@ from sys import argv
 import requests
 import os
 import enum
+from bs4 import BeautifulSoup
+import io
 #import pprint #Need to figure out how to use this properly to beautify terminal output
 
 class scanner(enum.Enum):
